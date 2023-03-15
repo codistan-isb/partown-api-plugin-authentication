@@ -90,7 +90,10 @@ export async function verifyOTP(number, otp, context) {
 
     const userObj = await users.updateOne(
       { phone: number },
-      { $set: { phoneVerified: "true" } }
+      {
+        $set: { phoneVerified: "true" },
+        $set: { transactionId: "testtransactionid" },
+      }
     );
     console.log("isValid", isValid);
 
@@ -104,4 +107,30 @@ export async function verifyOTP(number, otp, context) {
       response: "Invalid code entered",
     };
   }
+}
+
+export async function generateTransactionId(email, context) {
+  console.log(transactionId);
+  let result = "";
+  const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  const charactersLength = characters.length;
+
+  for (let i = 0; i < charactersLength; i++) {
+    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+  }
+  console.log("randomized result is ");
+  console.log(result);
+  const { collections } = context;
+  const { accounts } = collections;
+
+  const accountObj = await accounts.updateOne(
+    { "emails.0.address": email },
+    { $set: { transactionId: "AJKDSASADFASDF" } }
+  );
+  console.log("userOBJ", userObj);
+
+  return {
+    status: true,
+    response: "transaction ID generated successfully",
+  };
 }

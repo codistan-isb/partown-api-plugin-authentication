@@ -7,21 +7,18 @@ extend type User {
 extend type Account {
   phone: String
 }
+
 extend input CreateUserInput {
-  phone: String!
-  firstName: String!
-  lastName: String!
+  phone: String
+  firstName: String
+  lastName: String
   otp: String
-  govId: [String]
-  proofOfAddress: [String]
 }
 type CreateUserResult {
   phone: String
   firstName: String
   lastName: String
   otp: String
-  govId: [String]
-  proofOfAddress: [String]
 }
 
 type phone {
@@ -44,6 +41,7 @@ extend type Mutation {
   createUserWithOtp(user: CreateUserInput!): CreateUserResult
 
   verifyOTP(phone: String, otp: String): verifyOTPResponse
+
   authenticateWithOTP(
     serviceName: String!
     params: AuthenticateParamsInput!
