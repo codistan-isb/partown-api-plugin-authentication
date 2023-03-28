@@ -142,10 +142,10 @@ export default {
     const accountsPassword = injector.get(password_1.AccountsPassword);
     const { Accounts, users } = collections;
     let result = "";
-    const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    const characters = "1234567890";
     const charactersLength = characters.length;
 
-    for (let i = 0; i < charactersLength; i++) {
+    for (let i = 0; i < 8; i++) {
       result += characters.charAt(Math.floor(Math.random() * charactersLength));
     }
     let userId;
@@ -179,7 +179,7 @@ export default {
       console.log("user", user);
       const account = {
         _id: userId,
-        transactionId: result,
+        transactionId: `ID${result}`,
         acceptsMarketing: false,
         emails: [
           {
