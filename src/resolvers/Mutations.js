@@ -142,7 +142,7 @@ export default {
     const accountsPassword = injector.get(password_1.AccountsPassword);
     const { Accounts, users } = collections;
     let result = "";
-    const characters = "1234567890";
+    const characters = "1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     const charactersLength = characters.length;
 
     for (let i = 0; i < 8; i++) {
@@ -195,7 +195,7 @@ export default {
           lastName: user.lastName,
           dob: user.dob,
           phone: user.phone,
-          transactionId: result,
+          transactionId: `ID${result}`,
         },
         shopId: null,
         state: "new",
