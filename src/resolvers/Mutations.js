@@ -191,7 +191,7 @@ export default {
         groups: [],
         name: null,
         profile: {
-          firstName: "here goes first name",
+          firstName: user.firstName,
           lastName: user.lastName,
           dob: user.dob,
           phone: user.phone,
@@ -200,6 +200,8 @@ export default {
         shopId: null,
         state: "new",
         userId: userId,
+        identityVerified: false,
+        isBanned: false,
       };
       const accountAdded = await Accounts.insertOne(account);
 
