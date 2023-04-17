@@ -4,7 +4,7 @@ import { AccountsServer } from "@accounts/server";
 import { AccountsPassword } from "@accounts/password";
 import mongoose from "mongoose";
 import config from "../config.js";
-import pkg from '@accounts/graphql-api';
+import pkg from "@accounts/graphql-api";
 
 const { AccountsModule } = pkg;
 let accountsServer;
@@ -23,22 +23,20 @@ export default async (app) => {
   const accountsMongo = new Mongo(db, {
     convertUserIdToMongoObjectId: false,
     convertSessionIdToMongoObjectId: false,
-    idProvider: () => mongoose.Types.ObjectId().toString()
+    idProvider: () => mongoose.Types.ObjectId().toString(),
   });
 
-  const password = new AccountsPassword(
-    {
-      validateNewUser: async (user) => {
-        // You can apply some custom validation
-        console.log("user", user)
-        let userObj = {};
-        userObj = { ...user,  phone: user.phone, phoneVerified: false  }
+  const password = new AccountsPassword({
+    validateNewUser: async (user) => {
+      // You can apply some custom validation
+      console.log("user", user);
+      let userObj = {};
+      userObj = { ...user, phone: user.phone, phoneVerified: false };
 
-        // We specify all the fields that can be inserted in the database
-        return userObj;
-      }
-    }
-  );
+      // We specify all the fields that can be inserted in the database
+      return userObj;
+    },
+  });
 
   accountsServer = new AccountsServer(
     {
@@ -53,19 +51,19 @@ export default async (app) => {
         const url = `${STORE_URL}/?resetToken=${token}`;
         await context.mutations.sendResetAccountPasswordEmail(context, {
           email: to,
-          url
+          url,
         });
       },
       emailTemplates: {
         resetPassword: {
           from: null,
           // hack to pass the URL to sendMail function
-          text: (user, url) => url
-        }
-      }
+          text: (user, url) => url,
+        },
+      },
     },
     {
-      password
+      password,
     }
   );
   accountsGraphQL = AccountsModule.forRoot({ accountsServer });

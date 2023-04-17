@@ -88,6 +88,9 @@ export default {
 
     try {
       userId = await accountsPassword.createUser(user);
+
+
+
     } catch (error) {
       // If ambiguousErrorMessages is true we obfuscate the email or username already exist error
       // to prevent user enumeration during user creation
@@ -105,6 +108,42 @@ export default {
       return {
         userId: accountsServer.options.ambiguousErrorMessages ? null : userId,
       };
+    }
+
+    if (userId) {
+      const account = {
+        "_id": userId,
+        "acceptsMarketing": false,
+        "emails": [
+          {
+            "address": user.email,
+            "verified": false,
+            "provides": "default"
+          }
+        ],
+        "groups": [GroupNameResp],
+        "name": null,
+        "profile": {
+          firstName: user.firstName,
+          lastName: user.lastName,
+          dob: user.dob,
+          phone: user.phone,
+        },
+        "shopId": null,
+        "state": "new",
+        "userId": userId,
+        "UserRole": user.UserRole,
+      }
+      // const accountAdded = await Accounts.insertOne({
+      //   _id: userId,
+      //   firstName: user.firstName,
+      //   lastName: user.lastName,
+      //   name: user.firstName + " " + user.lastName,
+      //   phone: user.phone,
+      //   UserRole: user.UserRole
+      // });
+      const accountAdded = await Accounts.insertOne(account);
+      // console.log(accountAdded)
     }
     // if (userId) {
     //         const accountAdded = await Accounts.insertOne({ _id: userId, firstName: user.firstName, lastName: user.lastName, name: user.firstName + " " + user.lastName, phone: user.phone })
