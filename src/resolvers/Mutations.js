@@ -88,9 +88,6 @@ export default {
 
     try {
       userId = await accountsPassword.createUser(user);
-
-
-
     } catch (error) {
       // If ambiguousErrorMessages is true we obfuscate the email or username already exist error
       // to prevent user enumeration during user creation
@@ -112,28 +109,28 @@ export default {
 
     if (userId) {
       const account = {
-        "_id": userId,
-        "acceptsMarketing": false,
-        "emails": [
+        _id: userId,
+        acceptsMarketing: false,
+        emails: [
           {
-            "address": user.email,
-            "verified": false,
-            "provides": "default"
-          }
+            address: user.email,
+            verified: false,
+            provides: "default",
+          },
         ],
-        "groups": [GroupNameResp],
-        "name": null,
-        "profile": {
+        groups: [GroupNameResp],
+        name: null,
+        profile: {
           firstName: user.firstName,
           lastName: user.lastName,
           dob: user.dob,
           phone: user.phone,
         },
-        "shopId": null,
-        "state": "new",
-        "userId": userId,
-        "UserRole": user.UserRole,
-      }
+        shopId: null,
+        state: "new",
+        userId: userId,
+        UserRole: user.UserRole,
+      };
       // const accountAdded = await Accounts.insertOne({
       //   _id: userId,
       //   firstName: user.firstName,
@@ -177,6 +174,8 @@ export default {
   },
   async createUserWithOtp(_, { user }, ctx) {
     const { injector, infos, collections } = ctx;
+
+    console.log("injector is ", injector);
     const accountsServer = injector.get(server_1.AccountsServer);
     const accountsPassword = injector.get(password_1.AccountsPassword);
     const { Accounts, users } = collections;
@@ -241,6 +240,11 @@ export default {
         userId: userId,
         identityVerified: false,
         isBanned: false,
+        wallets: {
+          amount: 0,
+          escrow: 0,
+          currency: "naira"
+        },
       };
       const accountAdded = await Accounts.insertOne(account);
 
