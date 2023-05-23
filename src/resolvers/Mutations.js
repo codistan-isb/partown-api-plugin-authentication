@@ -234,6 +234,8 @@ export default {
           dob: user.dob,
           phone: user.phone,
           transactionId: `ID${result}`,
+          picture:
+            "public/user/cmVhY3Rpb24vYWNjb3VudDo2NDNlM2U3ZjVmOWNhOGRjYTI5Nzg1NGI=/profile_picture/medium-1684814447798-default.jpg",
         },
         shopId: null,
         state: "new",
@@ -243,7 +245,7 @@ export default {
         wallets: {
           amount: 0,
           escrow: 0,
-          currency: "naira"
+          currency: "naira",
         },
       };
       const accountAdded = await Accounts.insertOne(account);
