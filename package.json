@@ -1,7 +1,7 @@
 {
   "name": "@partown/api-plugin-authentication-otp",
   "description": "Authentication plugin for the Reaction API",
-  "version": "9.2.1",
+  "version": "9.2.2",
   "main": "index.js",
   "type": "module",
   "engines": {

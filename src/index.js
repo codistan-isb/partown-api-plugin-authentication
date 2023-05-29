@@ -11,18 +11,16 @@ const mySchema = importAsString("./schema.graphql");
  * @param {ReactionAPI} app The ReactionAPI instance
  * @returns {undefined}
  */
- const resolvers = {
+const resolvers = {
   Account,
-  Mutation
+  Mutation,
 };
 
-function myStartup(context){
+function myStartup(context) {
   const { app, collections, rootUrl } = context;
   const { users } = collections;
 
-  users.createIndex( {phone:1}, { unique: true } )
-
-
+  users.createIndex({ phone: 1 }, { unique: true });
 }
 export default async function register(app) {
   const { accountsGraphQL } = await getAccounts(app);
@@ -33,24 +31,24 @@ export default async function register(app) {
     version: pkg.version,
     functionsByType: {
       graphQLContext: [({ req }) => accountsGraphQL.context({ req })],
-      startup:[myStartup]
+      startup: [myStartup],
     },
     collections: {
       users: {
-        name: "users"
-      }
+        name: "users",
+      },
     },
     graphQL: {
       schemas: [mySchema],
       typeDefsObj: [accountsGraphQL.typeDefs],
-      resolvers: resolvers
+      resolvers: resolvers,
     },
     expressMiddleware: [
       {
         route: "graphql",
         stage: "authenticate",
-        fn: tokenMiddleware
-      }
-    ]
+        fn: tokenMiddleware,
+      },
+    ],
   });
 }

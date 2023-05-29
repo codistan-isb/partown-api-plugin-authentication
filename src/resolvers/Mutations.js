@@ -32,10 +32,25 @@ export default {
   },
   async checkUserExist(parent, args, context, info) {
     const { collections } = context;
-    const { users } = collections;
+    const { users, InvitedUsers } = collections;
     const email = args.email;
     const phone = args.phone;
-    console.log(args);
+
+    const invitedStatus = await InvitedUsers.findOne({
+      email: email.toLowerCase(),
+    });
+
+    if (!invitedStatus) {
+      return new Error(
+        "You have not been invited to register with this platform"
+      );
+    }
+    const currentDate = new Date();
+    const expiryDate = new Date(invitedStatus.expirationTime);
+
+    if (expiryDate < currentDate) {
+      return new Error("Your invitation has expired");
+    }
 
     let userExist = await users.findOne({ phone: phone });
     if (!userExist) {
