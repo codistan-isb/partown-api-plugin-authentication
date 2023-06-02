@@ -52,6 +52,11 @@ export default {
       return new Error("Your invitation has expired");
     }
 
+    await InvitedUsers.updateOne(
+      { email: email.toLowerCase() },
+      { $set: { isRegistered: true } }
+    );
+
     let userExist = await users.findOne({ phone: phone });
     if (!userExist) {
       userExist = await users.findOne({ "emails.0.address": email });
