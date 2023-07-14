@@ -35,6 +35,7 @@ export default {
     const { users, InvitedUsers } = collections;
     const email = args.email;
     const phone = args.phone;
+    const registerToken = args.registerToken;
 
     const invitedStatus = await InvitedUsers.findOne({
       email: email.toLowerCase(),
@@ -45,6 +46,11 @@ export default {
         "You have not been invited to register with this platform"
       );
     }
+
+    if (invitedStatus?.registerToken !== registerToken) {
+      return new Error("Registration token is not valid");
+    }
+
     const currentDate = new Date();
     const expiryDate = new Date(invitedStatus.expirationTime);
 

@@ -35,7 +35,7 @@ type sendOtpResponse {
 }
 
 extend type Mutation {
-  checkUserExist(phone: String, email: String): Boolean
+  checkUserExist(phone: String, email: String, registerToken: String): Boolean
   sendOTP(phone: String, email: String): Boolean
 
   createUserWithOtp(user: CreateUserInput!): CreateUserResult
