@@ -48,7 +48,9 @@ export default {
     }
 
     if (invitedStatus?.registerToken !== registerToken) {
-      return new Error("Registration token is not valid");
+      return new Error(
+        "Registration Link is not valid, please check your email and follow the instructions. If you are unable to register, please request a new invitation link"
+      );
     }
 
     const currentDate = new Date();
