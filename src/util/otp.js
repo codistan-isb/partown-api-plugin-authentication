@@ -3,6 +3,7 @@ import Twilio from "twilio";
 var dict = {};
 
 var accountSid = process.env.TWILIO_ACCOUNT_SID;
+
 var authToken = process.env.TWILIO_AUTH_TOKEN;
 const client = new Twilio(accountSid, authToken);
 
@@ -11,13 +12,14 @@ export function generateOtp(number) {
     try {
       let min = 100000;
       let max = 999999;
-      let my_otp = 123456; // () => [ min, max );
-      // let my_otp = Math.floor(Math.random() * (max - min + 1) + min); // () => [ min, max );
+      // let my_otp = 123456; // () => [ min, max );
+      let my_otp = Math.floor(Math.random() * (max - min + 1) + min); // () => [ min, max );
+
       dict[number] = { code: my_otp, expiry: new Date().getTime() + 60000 };
       console.log(
         "otp generated",
         number,
-        "Your verification code for is " + my_otp
+        "Your verification code for is test" + my_otp
       );
       sendOtp(number, "Your verification code for is " + my_otp)
         .then((res) => {
