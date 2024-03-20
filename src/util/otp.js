@@ -49,7 +49,8 @@ function sendOtp(number, body) {
         .create({
           body: body,
           to: number,
-          from: process.env.TWILIO_PHONE_NO,
+          //from: process.env.TWILIO_PHONE_NO,
+          messagingServiceSid:process.env.MESSAGING_SERVICE_SID
         })
         .then((data) => {
           console.log(data);
